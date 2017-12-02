@@ -2,8 +2,7 @@
 
 class StateManger(object):
     """A class which manages the state used by the feature builders"""
-    def __init__(self, state_id):
-        self.state_id = state_id
+    def __init__(self):
         self.state_dict = {}
 
     def read_state(self, entity_id):
