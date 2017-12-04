@@ -12,7 +12,7 @@ class InputReader(object):
     def __next__(self):
         """Returns dictionary representation of next row before
         returning a StopIteraction exception after final row"""
-        return self.reader.__next__()
+        yield self.reader.__next__()
 
 
 class OutputWriter(object):
