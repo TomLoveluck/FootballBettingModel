@@ -1,5 +1,5 @@
-from featurebuilders.decay import SampleDecayFeatureBuilder, TimeDecayFeatureBuilder
-from featurebuilders.simple import ValueLastMatchFeatureBuilder
+from featurebuilders.decay import SampleDecayFeature, TimeDecayFeature
+from featurebuilders.simple import ValueLastMatchFeature
 
 class FeatureManger(object):
 
@@ -9,56 +9,58 @@ class FeatureManger(object):
     def initialise_feature_builders(self):
         """Initialises feature builders"""
 
-        # home goals sample decay feature
-        home_goals_sd = SampleDecayFeatureBuilder(
-            feature_name="home_goals_sd",
+        # home and away team goals scored and conceded sd features
+        decay_rate = 10
+        home_team_goals_scored_sd = SampleDecayFeature(
+            feature_name="home_team_goals_scored_sd",
             entity_field="HomeTeam",
             sum_value_field="FTHG",
             incl_count=False, incl_sum=False, incl_mean=True,
-            decay_rate=3)
+            decay_rate=decay_rate)
 
-        home_goals_td = TimeDecayFeatureBuilder(
-            feature_name="home_goals_td",
+        home_team_goals_conceded_sd = SampleDecayFeature(
+            feature_name="home_goals_conceded_sd",
             entity_field="HomeTeam",
+            sum_value_field="FTAG",
+            incl_count=False, incl_sum=False, incl_mean=True,
+            decay_rate=decay_rate)
+
+        away_team_goals_scored_sd = SampleDecayFeature(
+            feature_name="away_team_goals_scored_sd",
+            entity_field="AwayTeam",
+            sum_value_field="FTAG",
+            incl_count=False, incl_sum=False, incl_mean=True,
+            decay_rate=decay_rate)
+
+        away_team_goals_conceded_sd = SampleDecayFeature(
+            feature_name="away_team_goals_conceded_sd",
+            entity_field="AwayTeam",
             sum_value_field="FTHG",
             incl_count=False, incl_sum=False, incl_mean=True,
-            decay_rate=30)
+            decay_rate=decay_rate)
 
-        # away goals sample decay feature
-        away_goals_sd = SampleDecayFeatureBuilder(
-            feature_name="away_goals_sd",
-            entity_field="AwayTeam",
-            sum_value_field="FTAG",
-            incl_count=False, incl_sum=False, incl_mean=True,
-            decay_rate=3)
 
-        away_goals_td = TimeDecayFeatureBuilder(
-            feature_name="away_goals_td",
-            entity_field="AwayTeam",
-            sum_value_field="FTAG",
-            incl_count=False, incl_sum=False, incl_mean=True,
-            decay_rate=30)
-
-        home_team_last_home_score = ValueLastMatchFeatureBuilder(
+        # last match scores
+        home_team_last_home_score = ValueLastMatchFeature(
             field_name="FTHG", entity_field="HomeTeam",
             feature_name="home_team_last_home_score")
 
-        home_team_last_away_score = ValueLastMatchFeatureBuilder(
+        home_team_last_away_score = ValueLastMatchFeature(
             field_name="FTAG", entity_field="HomeTeam",
             feature_name="home_team_last_away_score")
 
-        away_team_last_home_score = ValueLastMatchFeatureBuilder(
+        away_team_last_home_score = ValueLastMatchFeature(
             field_name="FTHG", entity_field="AwayTeam",
             feature_name="away_team_last_home_score")
 
-        away_team_last_away_score = ValueLastMatchFeatureBuilder(
+        away_team_last_away_score = ValueLastMatchFeature(
             field_name="FTAG", entity_field="AwayTeam",
             feature_name="away_team_last_away_score")
 
-        self.feature_builders = [home_goals_td,
-                                 home_goals_sd,
-                                 away_goals_td,
-                                 away_goals_sd,
+        self.feature_builders = [home_team_goals_scored_sd,
+                                 home_team_goals_conceded_sd,
+                                 away_team_goals_scored_sd,
+                                 away_team_goals_conceded_sd,
                                  home_team_last_home_score,
                                  home_team_last_away_score,
                                  away_team_last_home_score,
