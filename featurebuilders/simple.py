@@ -9,10 +9,6 @@ class ValueLastMatchFeature(object):
         self.field_name = field_name
         self.entity_field = entity_field
         self.feature_name = feature_name
-        self.create_state_repo()
-
-    def create_state_repo(self):
-        """State location created for instance state"""
         self.state_manager = StateManager()
 
     def initialise_state(self, entity_id):

@@ -17,10 +17,6 @@ class DecayFeature(object):
         self.incl_sum = incl_sum
         self.incl_mean = incl_mean
         self.decay_rate = decay_rate
-        self.create_state_repo()
-
-    def create_state_repo(self):
-        """State location created for instance state"""
         self.state_manager = StateManager()
 
     def initialise_state(self, entity_id):
@@ -28,9 +24,12 @@ class DecayFeature(object):
 
     def get_feature_names(self):
         feature_names = []
-        if self.incl_count: feature_names.append(self.feature_name + "_count")
-        if self.incl_sum: feature_names.append(self.feature_name + "_sum")
-        if self.incl_mean: feature_names.append(self.feature_name + "_mean")
+        if self.incl_count:
+            feature_names.append(self.feature_name + "_count")
+        if self.incl_sum:
+            feature_names.append(self.feature_name + "_sum")
+        if self.incl_mean:
+            feature_names.append(self.feature_name + "_mean")
         return feature_names
 
     def pre_extraction_update(self, event):
@@ -41,9 +40,12 @@ class DecayFeature(object):
         # read state using state manager
         state = self.state_manager.read(event[self.entity_field])
         feature_dict = {}
-        if self.incl_count: feature_dict[self.feature_name + "_count"] = state['count']
-        if self.incl_sum: feature_dict[self.feature_name + "_sum"] = state['sum']
-        if self.incl_mean: feature_dict[self.feature_name + "_mean"] = safe_division(state['sum'], state['count'], 1.)
+        if self.incl_count:
+            feature_dict[self.feature_name + "_count"] = state['count']
+        if self.incl_sum:
+            feature_dict[self.feature_name + "_sum"] = state['sum']
+        if self.incl_mean:
+            feature_dict[self.feature_name + "_mean"] = safe_division(state['sum'], state['count'], 1.)
         return feature_dict
 
 
@@ -102,7 +104,6 @@ class TimeDecayFeature(DecayFeature):
         initial_state = {"count": 0., "sum": 0.,
                          "last_update": datetime.strptime("1970-01-01", "%Y-%m-%d")}
         self.state_manager.write(entity_id, initial_state)
-
 
     def pre_extraction_update(self, event):
         """Decay sum and count state"""

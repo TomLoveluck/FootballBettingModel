@@ -1,10 +1,12 @@
 from featurebuilders.decay import SampleDecayFeature, TimeDecayFeature
 from featurebuilders.simple import ValueLastMatchFeature
 
+
 class FeatureManger(object):
 
     def __init__(self):
         self.initialise_feature_builders()
+        self.feature_builders = []
 
     def initialise_feature_builders(self):
         """Initialises feature builders"""
@@ -38,7 +40,6 @@ class FeatureManger(object):
             sum_value_field="FTHG",
             incl_count=False, incl_sum=False, incl_mean=True,
             decay_rate=decay_rate)
-
 
         # last match scores
         home_team_last_home_score = ValueLastMatchFeature(

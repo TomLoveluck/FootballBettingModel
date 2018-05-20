@@ -14,5 +14,5 @@ class StateManager(object):
         self.state_dict[entity_id] = updated_state
 
     def entity_missing(self, entity_id):
-        """Returns true when entity_id missing froms state_dict"""
+        """Returns true when entity_id missing from state_dict"""
         return entity_id not in self.state_dict

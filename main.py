@@ -1,6 +1,6 @@
 """
 main.py loads in data using the InputReader class,
-calculates the features using the FeatureManager classs and
+calculates the features using the FeatureManager class and
 writes the output to file using the OutputWriter class
 """
 from datetime import datetime
@@ -9,19 +9,22 @@ from feature_manager import FeatureManger
 from input_output import InputReader, OutputWriter
 
 
-# CONSTANTS
-READ_FILEPATH = "data/Football_data.csv"
-OUTPUT_FILEPATH = "data/Features.csv"
+def main():
 
-# Initialise important classes
-input_reader = InputReader(READ_FILEPATH)
-feature_manager = FeatureManger()
+    # CONSTANTS
+    read_file_path = "data/test.csv"
+    output_file_path = "data/Features.csv"
 
-output_features = feature_manager.get_all_feature_names() + ['Date','HomeResult','AwayResult','HomeTeam','AwayTeam']
-output_writer = OutputWriter(OUTPUT_FILEPATH, output_features)
+    # Initialise important classes
+    input_reader = InputReader(read_file_path)
+    feature_manager = FeatureManger()
 
-# read data from file using iterable interface of InputReader class
-for event in input_reader:
+    output_features = feature_manager.get_all_feature_names() + ['Date', 'HomeResult', 'AwayResult',
+                                                                 'HomeTeam', 'AwayTeam']
+    output_writer = OutputWriter(output_file_path, output_features)
+
+    # read data from file using iterable interface of InputReader class
+    for event in input_reader:
 
         # pre features extraction state updates
         feature_manager.pre_extraction_updates(event)
@@ -42,3 +45,6 @@ for event in input_reader:
         # write output to file
         output_writer.write_features(feature_dict)
 
+
+if __name__ == "__main__":
+    main()
